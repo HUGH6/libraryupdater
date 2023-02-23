@@ -1,0 +1,13 @@
+.classpath
+.project
+.settings
+.checkstyle
+bin
+/build
+/site-content
+.ekstazi
+*.iml
+*.ipr
+*.iws
+.idea
+*~
