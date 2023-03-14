@@ -12,6 +12,7 @@ import spoon.reflect.visitor.DefaultJavaPrettyPrinter;
 import spoon.support.RuntimeProcessingManager;
 
 import java.io.File;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.*;
 
@@ -57,7 +58,7 @@ public class SpoonClassCompiler implements VariantCompiler {
             }
         }
 
-        ctClasses = instanceToCompile.getAllClasses();
+        // ctClasses = instanceToCompile.getAllClasses();
 
         CompilationResult result = this.compile(ctClasses, classpath);
 
@@ -105,7 +106,11 @@ public class SpoonClassCompiler implements VariantCompiler {
         cps.add("-cp");
         String path = "";
         for (URL url : classpath) {
-            path += ((url.getPath()) + File.pathSeparator);
+            try {
+                path += ((new File(url.toURI()).getPath()) + File.pathSeparator);
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
         }
         cps.add(path);
 

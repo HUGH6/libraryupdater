@@ -108,7 +108,7 @@ public class RemoveParamAction implements TransferAction {
         for (CtInvocation i : invocations) {
             CtElement e = action.transform(i, context);
             CtElement f = e.getParent(CtMethod.class);
-            System.out.println(f.prettyprint());
+//            System.out.println(f.prettyprint());
         }
     }
 

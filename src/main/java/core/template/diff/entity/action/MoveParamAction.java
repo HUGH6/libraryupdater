@@ -129,7 +129,7 @@ public class MoveParamAction implements TransferAction {
         for (CtInvocation i : invocations) {
             CtElement e = action.transform(i, context);
             CtElement f = e.getPosition().getCompilationUnit();
-            System.out.println(f.prettyprint());
+//            System.out.println(f.prettyprint());
         }
     }
 }

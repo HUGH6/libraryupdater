@@ -57,7 +57,7 @@ public class ParamReplaceOperator extends Operator {
         CtInvocation originalElementCloned = (CtInvocation) MigrationSupporter.clone(originInvocation);
 
         // 随机选择一个参数
-        this.param = targetApi.params.get(RandomManager.nextInt(targetApi.params.size()));
+        this.param = targetApi.params.get(RandomManager.nextInt(targetApi.params.size() - 1));
 
         // 选择一个与参数名称编辑距离最接近的变量
         List<Ingredient> ingredients = this.ingredientPool.getIngredients().get(this.param.qualifiedType);
@@ -73,7 +73,8 @@ public class ParamReplaceOperator extends Operator {
         // 保存转换后的代码元素
         operatorInstance.setModifiedElement(originalElementCloned);
         // 将变更应用到model
-        operatorInstance.getModificationPoint().getCodeElement().replace(originalElementCloned);
+        operatorInstance.getOriginalElement().replace(originalElementCloned);
+//        operatorInstance.getModificationPoint().getCodeElement().replace(originalElementCloned);
         // 更新modification point中的代码元素为更新后的元素
         operatorInstance.getModificationPoint().setCodeElement(originalElementCloned);
 

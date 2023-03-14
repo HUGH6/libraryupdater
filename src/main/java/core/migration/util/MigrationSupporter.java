@@ -60,7 +60,7 @@ public class MigrationSupporter {
         JDTBasedSpoonCompiler jdtBasedSpoonCompiler = null;
         factory.getEnvironment().setCommentEnabled(true);
         factory.getEnvironment().setPreserveLineNumbers(true);
-        factory.getEnvironment().setIgnoreDuplicateDeclarations(true);
+        factory.getEnvironment().setIgnoreDuplicateDeclarations(false);
 
         jdtBasedSpoonCompiler = new JDTBasedSpoonCompiler(factory);
 
@@ -95,7 +95,7 @@ public class MigrationSupporter {
 
         String bytecodeLocation = facade.getMutatorOutDirWithPrefix(ProgramVariant.DEFAULT_ORIGINAL_VARIANT);
         String classpath = facade.getProjectConfiguration().getDependenciesString();
-        classpath += File.pathSeparator + new File(ConfigurationProperties.getProperty(ConfigurationProperties.TARGET_LIBRARY_PATH)).toURL().getPath();
+        classpath += File.pathSeparator + new File(ConfigurationProperties.getProperty(ConfigurationProperties.TARGET_LIBRARY_PATH)).getPath();
         String[] cpArray = (classpath != null && !classpath.trim().isEmpty()) ? classpath.split(File.pathSeparator) : null;
 
 //        String sourceLibPath = ConfigurationProperties.getProperty(ConfigurationProperties.SOURCE_LIBRARY_PATH);

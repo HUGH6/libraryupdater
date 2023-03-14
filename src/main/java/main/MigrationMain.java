@@ -9,6 +9,7 @@ import core.solutionsearch.DefaultEngine;
 import core.solutionsearch.SearchBasedMigrationEngine;
 import org.apache.log4j.Logger;
 
+import java.util.Date;
 import java.util.List;
 
 public class MigrationMain extends AbstractMain {
@@ -69,9 +70,11 @@ public class MigrationMain extends AbstractMain {
     }
 
     public static void main(String[] args) throws Exception {
+        logger.info("migrate start at " + new Date().toString());
+
         MigrationMain main = new MigrationMain();
         main.execute();
 
-        System.out.println("done");
+        logger.info("migrate done at " + new Date().toString());
     }
 }

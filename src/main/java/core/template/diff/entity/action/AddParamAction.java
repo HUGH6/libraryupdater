@@ -75,7 +75,6 @@ public class AddParamAction implements TransferAction {
         int positionToAdd = -1;
         if (anchorParam == null) {
             // 添加在第一位
-            positionToAdd = 0;
         } else {
             // 添加在锚点前
             int positionOfAnchor = -1;
@@ -188,7 +187,7 @@ public class AddParamAction implements TransferAction {
         ActionContext context = new ActionContext(originApi, targetApi);
         for (CtInvocation i : invocations) {
             CtElement e = action.transform(i, context);
-            System.out.println(e.getPosition().getCompilationUnit().prettyprint());
+//            System.out.println(e.getPosition().getCompilationUnit().prettyprint());
         }
     }
 }

@@ -28,51 +28,41 @@ import java.util.stream.Collectors;
 
 /**
  * 执行迁移的入口程序框架
+ *
+ * 整个迁移过程如下：
+ * 1. 指定待迁移的api和目标api（源目标api和目标api需要指定）
+ * 2. 加载项目，检测api调用点（项目路径和依赖需要指定）
+ * 3. 选择调用点，执行转换过程（各种转换得到的临时代码编译后的代码需要保存，因此需要指定位置）
+ * 4. 对生成代码进行测试回归验证（测试用例位置需要指定）
  */
 public abstract class AbstractMain {
     protected static Logger logger = Logger.getLogger(AbstractMain.class.getSimpleName());
 
     // 存储项目中所有的待迁移代码位置
     protected List<MigrationPoint> migrationPointList = new ArrayList<>();
-    // 存放当前迁移项目门面类
+    // 存放当前迁移项目门面类，通过一个Facade类来对项目信息的访问管理进行封装
     protected ProjectMigrationFacade migrationFacade;
     // 存放当前迁移项目的信息
     protected ProjectConfiguration projectConfiguration;
 
     /**
      * 初始化待迁移的软件项目信息
-     * 最先执行
+     * 需要最先执行
      */
     public void initProject() throws IOException {
-        // 通过一个ProjectFacade类来对项目信息的访问管理进行封装
-        // 对项目进行编译
-        /*
-         * 整个项目的迁移过程其实可以简化为：
-         * 指定待迁移的api和目标api（源目标api和目标api需要指定）
-         * 加载项目，检测api调用点（项目路径和依赖需要指定）
-         * 选择调用点，执行转换过程（各种转换得到的临时代码编译后的代码需要保存，因此需要指定位置）
-         * 对生成代码进行测试回归验证（测试用例位置需要指定）
-         */
-
+        // 将待迁移项目所有依赖的jar包下载到该项目根目录下的lib目录
         downloadDependenciesJar();
-
-        // ConfigurationProperties中的属性会在类加载时从配置文件中自动填装
-
-
-//        String originApi = ConfigurationProperties.getProperty(ConfigurationProperties.ORIGIN_API);
-//        String targetApi = ConfigurationProperties.getProperty(ConfigurationProperties.TARGET_API);
-//        String projectName = ConfigurationProperties.getProperty(ConfigurationProperties.PROJECT_NAME);
-//        String location = ConfigurationProperties.getProperty(ConfigurationProperties.LOCATION);
-//        String dependencies = ConfigurationProperties.getProperty(ConfigurationProperties.DEPENDENCIES_PATH);
 
         // ProjectConfiguration中的信息需要单独加载
         this.projectConfiguration = getProjectConfiguration();
         this.migrationFacade = new ProjectMigrationFacade(this.projectConfiguration);
         this.migrationFacade.setupWorkingDirectories(ProgramVariant.DEFAULT_ORIGINAL_VARIANT);
 
+        // 编译项目
         compileProject();
 
-        migrationPointList.clear();
+        // 清空待迁移API调用点列表
+        this.migrationPointList.clear();
     }
 
     /**
@@ -81,13 +71,6 @@ public abstract class AbstractMain {
      * @return 返回迁移结果
      */
     public  ExecutionResult execute() throws Exception {
-        /*
-         * 整个项目的迁移过程其实可以简化为：
-         * 指定待迁移的api和目标api（源目标api和目标api需要指定）
-         * 加载项目，检测api调用点（项目路径和依赖需要指定）
-         * 选择调用点，执行转换过程（各种转换得到的临时代码编译后的代码需要保存，因此需要指定位置）
-         * 对生成代码进行测试回归验证（测试用例位置需要指定）
-         */
         return run();
     }
 
@@ -120,7 +103,7 @@ public abstract class AbstractMain {
         pc.setOriginalDirData(projectRoot + ConfigurationProperties.getProperty(ConfigurationProperties.ORIGIN_DIR_DATA));
 
         pc.setFailingTestCases(new ArrayList<>());
-//        pc.setRegressionTestCases(ConfigurationProperties.getProperty(ConfigurationProperties.ORIGINAL_DIR_TEST));
+        // pc.setRegressionTestCases(ConfigurationProperties.getProperty(ConfigurationProperties.ORIGINAL_DIR_TEST));
 
         return pc;
     }
@@ -201,6 +184,8 @@ public abstract class AbstractMain {
         return migrationPoints;
     }
 
+
+
     /**
      * 下载项目依赖的jar包到根目录lib目录下
      * @throws IOException
@@ -213,6 +198,7 @@ public abstract class AbstractMain {
             throw new IllegalArgumentException(
                     "To download dependencies please add the maven command in your path or add it to the property 'mvndir'");
         }
+
         String dependencyDownloadCommand = "dependency:copy-dependencies";
         // 默认将依赖jar包放到项目根目录下的lib目录下
         builder.command("cmd.exe", "/c", mvnCommand, dependencyDownloadCommand, "-DoutputDirectory=lib");
@@ -233,6 +219,8 @@ public abstract class AbstractMain {
 
         MigrationSupporter.getSupporter().buildSpoonModel(e.migrationFacade);
         String api = ConfigurationProperties.getProperty(ConfigurationProperties.ORIGIN_API);
-        List<MethodCallPoint> points = MethodCallDetector.detectMethodCall(MigrationSupporter.getFactory().getModel(), api);
+        List<MigrationPoint> points = e.extractMigrationPoints();
+
+        System.out.println(points);
     }
 }

@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -176,7 +177,13 @@ public class ProjectConfiguration {
 
         for (int idx = 0; idx < dependencies.size(); idx++) {
             URL url = dependencies.get(idx);
-            deptStr.append(url.getPath());
+            String path = null;
+            try {
+                path = new File(url.toURI()).getPath();
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+            deptStr.append(path);
             if (idx != dependencies.size() - 1) {
                 deptStr.append(File.pathSeparator);
             }

@@ -183,7 +183,9 @@ public class ProjectMigrationFacade {
      */
     public URL[] getClassPathURLForProgramVariant(String currentMutatorIdentifier) throws MalformedURLException {
         // 添加项目依赖到classpath
-        List<URL> classpath = new ArrayList<URL>(getProjectConfiguration().getDependencies());
+        List<URL> classpath = new ArrayList<>();
+        classpath.add(new File(ConfigurationProperties.getProperty(ConfigurationProperties.TARGET_LIBRARY_PATH)).toURI().toURL());
+        classpath.addAll(new ArrayList<URL>(getProjectConfiguration().getDependencies()));
         // 将程序变体突变后的代码字节码加入classpath
         classpath.add(new File(getMutatorOutDirWithPrefix(currentMutatorIdentifier)).toURI().toURL());
         return classpath.toArray(new URL[0]);

@@ -61,29 +61,35 @@ public class ParamElement implements Cloneable{
         }
 
         ParamElement otherParam = (ParamElement) obj;
-        if (this.qualifiedType == null) {
-            if (this.qualifiedType != otherParam.getQualifiedType()) {
-                return false;
-            }
+
+        if (this.qualifiedType.equals(otherParam.qualifiedType) && this.name.equals(otherParam.name)) {
+            return true;
         } else {
-            if (!this.qualifiedType.equals(otherParam.getQualifiedType())) {
-                return false;
-            }
-        }
-        if (this.name == null) {
-            if (this.name != otherParam.getName()) {
-                return false;
-            }
-        } else {
-            if (!this.name.equals(otherParam.getName())) {
-                return false;
-            }
-        }
-        if (this.position != otherParam.getPosition()) {
             return false;
         }
-
-        return true;
+//        if (this.qualifiedType == null) {
+//            if (this.qualifiedType != otherParam.getQualifiedType()) {
+//                return false;
+//            }
+//        } else {
+//            if (!this.qualifiedType.equals(otherParam.getQualifiedType())) {
+//                return false;
+//            }
+//        }
+//        if (this.name == null) {
+//            if (this.name != otherParam.getName()) {
+//                return false;
+//            }
+//        } else {
+//            if (!this.name.equals(otherParam.getName())) {
+//                return false;
+//            }
+//        }
+//        if (this.position != otherParam.getPosition()) {
+//            return false;
+//        }
+//
+//        return true;
     }
 
     @Override

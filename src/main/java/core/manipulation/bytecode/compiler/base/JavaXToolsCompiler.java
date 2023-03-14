@@ -165,9 +165,14 @@ public class JavaXToolsCompiler {
 
         Map<String, String> files = new HashMap<>();
         Map<String, byte[]> dep = new HashMap<>();
-        files.put("Main", "public class Main {private int a = 1; private void test() {util.Util.sum(1,1);}}");
-        files.put("Util", "package util; public class Util {public static int sum(int a, int b) {return a + b;}}");
-        CompilationResult res = compiler.javaBytecodeFor(files, dep, null);
+        files.put("Main", "public class Main {private int a = 1; private void test() {shadow.util.MyMathUtil.sum2(1,2,3);}}");
+
+        List<String> cps = new ArrayList<>();
+        cps.add("-cp");
+//        String path = "E:\\projects\\libraryupdater\\examples\\migration_test_demo\\lib\\migrate_util_shadow-2.0.jar";
+        String path = "/E:/projects/libraryupdater/examples/migration_test_demo/lib/migrate_util_shadow-2.0.jar";
+        cps.add(path);
+        CompilationResult res = compiler.javaBytecodeFor(files, dep, cps);
 
         System.out.println(res);
     }

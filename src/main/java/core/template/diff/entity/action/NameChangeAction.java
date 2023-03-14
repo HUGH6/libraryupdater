@@ -138,7 +138,7 @@ public class NameChangeAction implements TransferAction {
         ActionContext context = new ActionContext(originApi, targetApi);
         for (CtInvocation i : invocations) {
             CtElement e = action.transform(i, context);
-            System.out.println(e.getPosition().getCompilationUnit().prettyprint());
+//            System.out.println(e.getPosition().getCompilationUnit().prettyprint());
         }
     }
 

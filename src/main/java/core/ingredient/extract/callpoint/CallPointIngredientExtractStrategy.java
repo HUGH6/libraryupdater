@@ -66,9 +66,9 @@ public class CallPointIngredientExtractStrategy implements IngredientExtractStra
                 String varName = varAcc.getVariable().toString();
                 String varType = varAcc.getVariable().getType().toString();
                 if (!varNames.contains(varName)) {
-                    System.out.println(varName);
-                    System.out.println(varType);
-                    System.out.println();
+//                    System.out.println(varName);
+//                    System.out.println(varType);
+//                    System.out.println();
 
                     varAccess.add(varAcc);
                     varNames.add(varAcc.getVariable().getSimpleName());
@@ -203,8 +203,8 @@ public class CallPointIngredientExtractStrategy implements IngredientExtractStra
                 super.visitCtLiteral(literal);
 
                 if (!literalValues.contains(literal)) {
-                    System.out.println(literal.getType().getQualifiedName());
-                    System.out.println(literal.getValue());
+//                    System.out.println(literal.getType().getQualifiedName());
+//                    System.out.println(literal.getValue());
                     literalValues.add(literal);
                 }
             }
@@ -372,7 +372,7 @@ public class CallPointIngredientExtractStrategy implements IngredientExtractStra
 
         IngredientPool pool = extractIngredient(invocations.get(0), api);
 
-        System.out.println(pool);
+//        System.out.println(pool);
 
     }
 }

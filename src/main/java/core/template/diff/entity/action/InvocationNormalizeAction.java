@@ -7,7 +7,6 @@ import spoon.Launcher;
 import spoon.reflect.code.*;
 import spoon.reflect.declaration.CtClass;
 import spoon.reflect.declaration.CtElement;
-import spoon.reflect.declaration.CtMethod;
 import spoon.reflect.declaration.CtVariable;
 import spoon.reflect.visitor.Filter;
 
@@ -110,7 +109,7 @@ public class InvocationNormalizeAction implements TransferAction {
         InvocationNormalizeAction action = new InvocationNormalizeAction();
         for (CtInvocation i : invocations) {
             CtElement e = action.transform(i, null);
-            System.out.println(e.getParent(CtMethod.class).prettyprint());
+//            System.out.println(e.getParent(CtMethod.class).prettyprint());
         }
     }
 }
