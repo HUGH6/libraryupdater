@@ -164,7 +164,7 @@ public class JUnitProcessLaucher {
                     success = true;
                 }
             }
-            System.out.println(processOut.toString());
+            log.info(processOut.toString());
             in.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -173,7 +173,7 @@ public class JUnitProcessLaucher {
         if (success) {
             return testResult;
         } else {
-            log.error("Error reading the validation process\n output: \n" + processOut);
+            log.error("Error reading the validation process, output: " + processOut);
             return null;
         }
     }

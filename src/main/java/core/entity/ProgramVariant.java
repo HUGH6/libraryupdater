@@ -2,7 +2,6 @@ package core.entity;
 
 import conf.ConfigurationProperties;
 import core.manipulation.bytecode.entity.CompilationResult;
-import core.setup.PropertyKey;
 import core.validation.entity.VariantValidationResult;
 import spoon.reflect.declaration.CtClass;
 import spoon.reflect.declaration.CtType;
@@ -212,6 +211,6 @@ public class ProgramVariant {
      * @return
      */
     public String currentMutatorIdentifier() {
-        return (id >= 0) ? (ConfigurationProperties.getProperty(PropertyKey.VariantFolderPrefixName) + id) : DEFAULT_ORIGINAL_VARIANT;
+        return (id >= 0) ? (ConfigurationProperties.getProperty(ConfigurationProperties.VariantFolderPrefixName) + id) : DEFAULT_ORIGINAL_VARIANT;
     }
 }

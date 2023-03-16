@@ -1,5 +1,1 @@
-util\TestSubstringTest.class
-util\TestSumTest.class
-util\TestTwoTimesTest.class
-util\TestSortTest.class
-util\TestJarTest.class
+test\TestJarMain.class

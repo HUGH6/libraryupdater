@@ -120,18 +120,6 @@ public abstract class CoreMigrationEngine {
         // 获取代码变体的class path
         URL[] originalURL = projectFacade.getClassPathURLForProgramVariant(ProgramVariant.DEFAULT_ORIGINAL_VARIANT);
 
-//        String sourceLibPath = ConfigurationProperties.getProperty(ConfigurationProperties.SOURCE_LIBRARY_PATH);
-//        String targetLibPath = ConfigurationProperties.getProperty(ConfigurationProperties.TARGET_LIBRARY_PATH);
-//        // 过滤
-//        for (int i = 0; i < originalURL.length; i++) {
-//            String originJarPath = originalURL[i].getPath();
-//            String sourceJarPath = new File(sourceLibPath).toURL().getPath();
-//
-//            if (originJarPath.equals(sourceJarPath)) {
-//                originalURL[i] = new File(targetLibPath).toURL();
-//            }
-//        }
-
         CompilationResult compilationResult = compiler.compile(variant, originalURL);
 
         // 判断是否编译成功

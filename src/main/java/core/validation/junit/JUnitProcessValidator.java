@@ -125,27 +125,27 @@ public class JUnitProcessValidator implements ProgramVariantValidator  {
             classpath = originalURL.toArray(new URL[0]);
         }
 
-        // 判断是否有gzoltar
-        boolean isGZoltarDependencyFound = false;
-        for (int i = 0; i < classpath.length && !isGZoltarDependencyFound; i++) {
-            if (classpath[i].getFile().contains("gzoltar-0.1.1")) {
-                isGZoltarDependencyFound = true;
-            }
-        }
-
-        // 如果classpath中没有gzoltar，则从本项目的lib目录下添加gzoltar的jar依赖
-        if (!isGZoltarDependencyFound) {
-            File libsfolder = new File("." + File.separator + "lib");
-
-            URL[] newBc = new URL[classpath.length + 1];
-            newBc[0] = new URL("file://" + libsfolder.getAbsolutePath() + File.separator
-                    + "com.gzoltar-0.1.1-jar-with-dependencies.jar");
-            for (int i = 0; i < classpath.length; i++) {
-                newBc[i + 1] = classpath[i];
-            }
-
-            return newBc;
-        }
+//        // 判断是否有gzoltar
+//        boolean isGZoltarDependencyFound = false;
+//        for (int i = 0; i < classpath.length && !isGZoltarDependencyFound; i++) {
+//            if (classpath[i].getFile().contains("gzoltar-0.1.1")) {
+//                isGZoltarDependencyFound = true;
+//            }
+//        }
+//
+//        // 如果classpath中没有gzoltar，则从本项目的lib目录下添加gzoltar的jar依赖
+//        if (!isGZoltarDependencyFound) {
+//            File libsfolder = new File("." + File.separator + "lib");
+//
+//            URL[] newBc = new URL[classpath.length + 1];
+//            newBc[0] = new URL("file://" + libsfolder.getAbsolutePath() + File.separator
+//                    + "com.gzoltar-0.1.1-jar-with-dependencies.jar");
+//            for (int i = 0; i < classpath.length; i++) {
+//                newBc[i + 1] = classpath[i];
+//            }
+//
+//            return newBc;
+//        }
 
         return classpath;
     }
@@ -167,7 +167,7 @@ public class JUnitProcessValidator implements ProgramVariantValidator  {
                 continue;
             }
             File f = new File(path);
-            originalURL.add(new URL("file://" + f.getAbsolutePath()));
+            originalURL.add(f.toURL());
         }
 
         return originalURL;

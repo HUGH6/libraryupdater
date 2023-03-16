@@ -72,9 +72,6 @@ public class SearchBasedMigrationEngine extends CoreMigrationEngine {
                 return;
             } else {
                 logger.info("found solution " + this.solutions.size());
-//                for (ProgramVariant patch : this.solutions) {
-//                    saveVariant(patch);
-//                }
             }
 
             // 暂时只迁移一个

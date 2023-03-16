@@ -1,5 +1,7 @@
 package conf;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Properties;
 
@@ -65,6 +67,8 @@ public class ConfigurationProperties {
     public static final String GZOLTAR_JAR_LOCATION = "gzoltar_jar_location";
     // 指定进行故障定位的包
     public static final String PACKAGE_TO_INSTRUMENT = "package_to_instrument";
+    // 程序变体输出的目录名前缀
+    public static final String VariantFolderPrefixName = "variant_folder_prefix_name";
 
 
     // 程序验证器类型
@@ -86,6 +90,20 @@ public class ConfigurationProperties {
     // 目标版本软件库路径
     public static final String TARGET_LIBRARY_PATH = "target_library_path";
 
+
+    /************************************************
+     * 软件库api信息提取器配置
+     ***********************************************/
+
+    // 提取的软件库标识，格式：软件库名称_版本
+    public static final String LIBRARY_IDENTIFIER = "library_identifier";
+    // 软件库源码项目根目录
+    public static final String LIBRARY_ROOT_PATH  = "library_root_path";
+    // 软件库项目源码目录
+    public static final String LIBRARY_SRC_PATH   = "library_src_path";
+    // 软件库项目依赖包目录
+    public static final String LIBRARY_DEPENDENCY_PATH = "library_dependency_path";
+
     static {
         loadPropertiesFromFile();
     }
@@ -93,6 +111,14 @@ public class ConfigurationProperties {
     protected static void loadPropertiesFromFile() {
         try (InputStream propFile =
                      ConfigurationProperties.class.getClassLoader().getResourceAsStream(defaultPropertyFile)){
+            properties.load(propFile);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void loadPropertiesFromFile(File file) {
+        try (InputStream propFile = new FileInputStream(file)) {
             properties.load(propFile);
         } catch (Exception e) {
             e.printStackTrace();

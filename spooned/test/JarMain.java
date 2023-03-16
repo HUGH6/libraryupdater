@@ -1,13 +1,13 @@
 package test;
 
 
-public class JarTest {
+public class JarMain {
     public static int sum(int a, int b) {
         int ans = util.MyMathUtil.sum1(a, b);
         return ans;
     }
 
     public static void main(java.lang.String[] args) {
-        test.JarTest.sum(0, 1);
+        test.JarMain.sum(0, 1);
     }
 }

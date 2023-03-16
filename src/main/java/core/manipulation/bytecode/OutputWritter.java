@@ -1,9 +1,7 @@
 package core.manipulation.bytecode;
 
-import conf.ConfigurationProperties;
 import core.manipulation.bytecode.compiler.SpoonClassCompiler;
 import core.manipulation.bytecode.entity.CompilationResult;
-import core.setup.PropertyKey;
 import org.apache.log4j.Logger;
 import spoon.compiler.Environment;
 import spoon.reflect.declaration.CtClass;
@@ -46,7 +44,7 @@ public class OutputWritter {
      */
     public void saveSourceCode(CtClass element) {
         this.getEnvironment().setCommentEnabled(true);
-        this.getEnvironment().setPreserveLineNumbers(ConfigurationProperties.getPropertyBool(PropertyKey.PreserveLineNumber));
+        this.getEnvironment().setPreserveLineNumbers(true);
         if (javaPrinter == null) {
             throw new IllegalArgumentException("Java printer is null");
         }

@@ -13,12 +13,13 @@ public class URLUtil {
     private static Logger logger = Logger.getLogger(URLUtil.class.getSimpleName());
 
     public static String urlArrayToString(URL[] urls) {
+        String[] paths = urlsToAbsolutePaths(urls);
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < urls.length; i++) {
-            URL url = urls[i];
-            sb.append("\"");
-            sb.append(url.getPath());
-            sb.append("\"");
+        for (int i = 0; i < paths.length; i++) {
+            String path = paths[i];
+//            sb.append("\"");
+            sb.append(path);
+//            sb.append("\"");
             sb.append(File.pathSeparator);
         }
         return sb.toString();

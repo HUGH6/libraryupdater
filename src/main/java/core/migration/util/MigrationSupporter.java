@@ -98,18 +98,6 @@ public class MigrationSupporter {
         classpath += File.pathSeparator + new File(ConfigurationProperties.getProperty(ConfigurationProperties.TARGET_LIBRARY_PATH)).getPath();
         String[] cpArray = (classpath != null && !classpath.trim().isEmpty()) ? classpath.split(File.pathSeparator) : null;
 
-//        String sourceLibPath = ConfigurationProperties.getProperty(ConfigurationProperties.SOURCE_LIBRARY_PATH);
-//        String targetLibPath = ConfigurationProperties.getProperty(ConfigurationProperties.TARGET_LIBRARY_PATH);
-//        // 过滤
-//        for (int i = 0; i < cpArray.length; i++) {
-//            String originJarPath = cpArray[i];
-//            String sourceJarPath = new File(sourceLibPath).toURL().getPath();
-//
-//            if (originJarPath.equals(sourceJarPath)) {
-//                cpArray[i] = new File(targetLibPath).toURL().getPath();
-//            }
-//        }
-
         try {
             this.buildModel(codeLocation, bytecodeLocation, cpArray);
         } catch (Exception e) {

@@ -135,9 +135,9 @@ public abstract class AbstractMain {
         launcher.setBinaryOutputDirectory(compileOutputPath);
 
         logger.info("compile original source code from "
-                + launcher.getModelBuilder().getInputSources()
-                + "\n"
-                + "byte code saved in "
+                + launcher.getModelBuilder().getInputSources());
+
+        logger.info("byte code saved in "
                 + launcher.getModelBuilder().getBinaryOutputDirectory());
 
         launcher.getEnvironment().setPreserveLineNumbers(true);

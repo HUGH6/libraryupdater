@@ -2,8 +2,10 @@ package core.detector;
 
 import conf.ConfigurationProperties;
 import core.detector.entity.MethodCallPoint;
+import core.template.diff.ApiElementBuilder;
 import core.template.diff.entity.ApiElement;
 import core.template.diff.entity.ParamElement;
+import org.apache.log4j.Logger;
 import spoon.Launcher;
 import spoon.SpoonAPI;
 import spoon.reflect.CtModel;
@@ -17,6 +19,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class MethodCallDetector {
+    protected Logger logger = Logger.getLogger(MethodCallDetector.class.getSimpleName());
+
     /**
      * 提取在rootPath下项目中对api的调用点
      * @param rootPath 项目路径
@@ -47,36 +51,9 @@ public class MethodCallDetector {
     public static List<MethodCallPoint> detectMethodCall(CtModel model, String api) {
         List<MethodCallPoint> callPoints = new ArrayList<>();
 
-        api = api.trim();
-        int splitIdx = api.indexOf(" ");
+        ApiElement originApiElement = ApiElementBuilder.buildApiElement(api);
 
-        String targetReturnType = api.substring(0, splitIdx);
-        String targetSignature = api.substring(splitIdx + 1);
-
-        List<CtInvocation> elements = model.getRootPackage().getElements(new AbstractFilter<CtInvocation>() {
-            @Override
-            public boolean matches(CtInvocation element) {
-                String returnType = element.getExecutable().getType().getQualifiedName();
-
-                String classOfMethod = element.getExecutable().getDeclaringType().getQualifiedName();
-                String methodSignature = element.getExecutable().getSignature();
-                String fullSignature = classOfMethod + "." + methodSignature;
-
-                // 返回值类型和方法全限定签名相同
-                if (returnType.equals(targetReturnType) && fullSignature.equals(targetSignature)) {
-                    return true;
-                }
-
-                return false;
-            }
-        });
-
-        // 转化为调用点对象表示
-        for (CtInvocation e : elements) {
-            callPoints.add(new MethodCallPoint(e));
-        }
-
-        return callPoints;
+        return detectMethodCall(model, originApiElement);
     }
 
     public static List<MethodCallPoint> detectMethodCall(CtModel model, ApiElement api) {
@@ -118,6 +95,7 @@ public class MethodCallDetector {
 
         return callPoints;
     }
+
     /**
      * 测试功能使用
      * @param args
@@ -128,12 +106,26 @@ public class MethodCallDetector {
         String srcPath = projectRoot + File.separator + srcDir;
         String originApi = ConfigurationProperties.getProperty(ConfigurationProperties.ORIGIN_API);
 
-//        String path = "E:\\projects\\libraryupdater\\src\\main\\resources\\test\\Demo.java";
-//        String api = "boolean test.Demo.test2(java.lang.String)";
+
         List<MethodCallPoint> callPoints = MethodCallDetector.detectMethodCall(srcPath, originApi);
-        callPoints.stream().forEach(System.out::println);
+//        callPoints.stream().forEach(System.out::println);
 
         List<CtStatement> statementList = callPoints.stream().map(c -> (CtStatement)c.callPoint).collect(Collectors.toList());
-        statementList.forEach(System.out::println);
+//        statementList.forEach(System.out::println);
+
+        List<String> callPointPosition = callPoints.stream()
+                .map(c -> {
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(new File(c.file).toURI().getPath());
+                    sb.append(":");
+                    sb.append(c.line);
+
+                    return sb.toString();
+                })
+                .collect(Collectors.toList());
+
+        for (String callPointStr : callPointPosition) {
+            System.out.println(callPointStr);
+        }
     }
 }
