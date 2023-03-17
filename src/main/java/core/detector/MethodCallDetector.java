@@ -11,6 +11,7 @@ import spoon.SpoonAPI;
 import spoon.reflect.CtModel;
 import spoon.reflect.code.CtInvocation;
 import spoon.reflect.code.CtStatement;
+import spoon.reflect.reference.CtTypeReference;
 import spoon.reflect.visitor.filter.AbstractFilter;
 
 import java.io.File;
@@ -73,14 +74,18 @@ public class MethodCallDetector {
         List<CtInvocation> elements = model.getRootPackage().getElements(new AbstractFilter<CtInvocation>() {
             @Override
             public boolean matches(CtInvocation element) {
-                String returnType = element.getExecutable().getType().getQualifiedName();
+                CtTypeReference returnType = element.getExecutable().getType();
+                String returnTypeStr = "void";
+                if (returnType != null) {
+                    returnTypeStr = returnType.getQualifiedName();
+                }
 
                 String classOfMethod = element.getExecutable().getDeclaringType().getQualifiedName();
                 String methodSignature = element.getExecutable().getSignature();
                 String fullSignature = classOfMethod + "." + methodSignature;
 
                 // 返回值类型和方法全限定签名相同
-                if (returnType.equals(targetReturnType) && fullSignature.equals(finalTargetSignature)) {
+                if (returnTypeStr.equals(targetReturnType) && fullSignature.equals(finalTargetSignature)) {
                     return true;
                 }
 

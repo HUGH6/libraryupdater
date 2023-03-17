@@ -26,7 +26,7 @@
             <artifactId>migrate_util</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>system</scope>
-            <systemPath>${basedir}/lib/migrate_util-1.0.jar</systemPath>
+            <systemPath>${basedir}/lib/library_demo-1.0.jar</systemPath>
         </dependency>
     </dependencies>
 

@@ -70,13 +70,15 @@ public class AddExceptionAction implements TransferAction {
         if (ct == null) {
             // 若没有try语句，则新建一个try语句，将当前调用的语句放入try语句内部，然后用try语句替换原本的调用语句
             ct = MigrationSupporter.getFactory().Core().createTry();
+            CtStatement clonedStatement = currentStatement.clone();
             // 将原本的statement写入try 块中
-            ct.setBody(currentStatement.clone());
+            ct.setBody(clonedStatement);
             // 新建一个block用于存放try块
             CtBlock tryParentBlock = MigrationSupporter.getFactory().createBlock();
             tryParentBlock.addStatement(ct);
             // 将原本的statement替换为新建的try block
             currentStatement.replace(tryParentBlock);
+            clonedStatement.replace(currentStatement);
         }
 
         // 为try语句添加新的catch语句块

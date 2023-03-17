@@ -83,17 +83,28 @@ public abstract class CoreMigrationEngine {
      */
     public void atEnd() throws Exception {
         if (this.solutions.isEmpty()) {
-            System.out.println("no solution found");
+            logger.info("\n###################################################"
+                    + "\nResult: no solution found"
+                    + "\n###################################################");
         } else {
             String ids = "";
             for (ProgramVariant p : this.solutions) {
                 ids += p.getId() + "\n";
             }
-            System.out.println(this.solutions.size() + " solutions found.\nvariant-ids:\n" + ids);
+            logger.info("\n###################################################"
+                    +"\nResult: " + this.solutions.size() + " solutions found. variant-ids: " + ids
+                    +"###################################################");
 
+            logger.info("transfer operations: ");
             for (int gen = 0; gen <= this.solutions.get(0).getGenerationSource(); gen++) {
-                OperatorInstance op =this.solutions.get(0).getOperations().get(gen).get(0);
-                System.out.println(op.toString());
+                List<OperatorInstance> ois = this.solutions.get(0).getOperations().get(gen);
+                if (ois == null || ois.size() == 0) {
+                    continue;
+                }
+                OperatorInstance op = ois.get(0);
+                if (op != null) {
+                    logger.info(op.toString());
+                }
             }
         }
     }

@@ -4,6 +4,7 @@ import conf.ConfigurationProperties;
 import core.entity.OperatorInstance;
 import core.entity.ProgramVariant;
 import core.manipulation.bytecode.OutputWritter;
+import core.manipulation.sourcecode.BlockReificationScanner;
 import core.setup.ProjectMigrationFacade;
 import spoon.compiler.Environment;
 import spoon.reflect.code.CtCodeElement;
@@ -123,6 +124,11 @@ public class MigrationSupporter {
      * @throws Exception
      */
     public void saveProgramVariantSourceCodeOnDisk(ProgramVariant variant, String srcOutputPath) throws Exception {
+        BlockReificationScanner visitor = new BlockReificationScanner();
+        for (CtType c : MigrationSupporter.getFactory().Type().getAll()) {
+            c.accept(visitor);
+        }
+
         // 设置输出目录
         this.outputer.updateOutput(srcOutputPath);
         Collection<CtClass> classes = new ArrayList<>();
